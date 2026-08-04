@@ -12911,6 +12911,7 @@ p {
 }
 .main-header {
         width : 100vw;
+        transition: 0.5s;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -31,17 +31,29 @@
 
 	
 // History Tabs Carousel
+// loop + autoplay used to make the timeline jump backward from 2025 to 1996
+// and fight you mid-drag. It's a fixed chronological history, not a rotating
+// gallery, so both are off now; owl's built-in mouse-drag still works.
+//
+// Owl sizes each card as (stage width / items) for whatever "items" count
+// matches the current breakpoint. The timeline section is now full viewport
+// width instead of sitting in a ~1300px container, so on a wide screen the
+// old items:3 stretched each card (and its fixed-height image) far wider
+// than it was ever designed for. Added breakpoints that increase the item
+// count as the screen widens, so each card stays close to its original
+// ~400px size no matter how wide the stage is — instead of 3 huge cards,
+// a wide screen shows more cards at their normal size. margin bumped up
+// for more visible breathing room between them.
 if ($('.history-tabs-carousel').length) {
     $('.history-tabs-carousel').owlCarousel({
-        loop: true,
-        margin: 30,
+        loop: false,
+        margin: 40,
         dots: false,
         nav: true,
         stagePadding: 0,
         singleItem: true,
         smartSpeed: 500,
-        autoplay: true,
-        autoplayTimeout: 6000,
+        autoplay: false,
         navText: ['<span class="flaticon-down-arrow-2 left"></span>', '<span class="flaticon-down-arrow-2 right"></span>'],
         responsive: {
             0: {
@@ -58,6 +70,12 @@ if ($('.history-tabs-carousel').length) {
             },
             1200: {
                 items: 3
+            },
+            1600: {
+                items: 4
+            },
+            1900: {
+                items: 5
             }
         }
     });

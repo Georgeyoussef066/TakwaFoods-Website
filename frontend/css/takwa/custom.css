@@ -415,7 +415,7 @@ body{
 header.main-header {
     position: relative;
     z-index: 100;
-    margin-top: 50px;
+    margin-top: 0px;
     padding: 0 0px;
 }
 
@@ -7096,11 +7096,14 @@ height: unset;}
 
 
 
+/* Header is see-through at the top so the hero video shows through, and fades
+   to black once you start scrolling. ("position: fic" here was a typo.) */
 .sticky {
     background-color: black;
     position: fixed !important;
     top: 0;
-    position: fic;
+    left: 0;
+    right: 0;
 }
 
 
@@ -7116,4 +7119,212 @@ height: unset;}
 
 .galleryimg{
     margin-bottom: 20px;
+}
+
+/* Home hero: sit the heading just under the header instead of half way down
+   the page. The overall hero height is kept, so the video still fills it.
+
+   The width rules override .bg-section, which caps every section at 1800px and
+   adds 50px side margins between 1561px and 1800px — that was leaving a strip
+   of page either side of the video. .hero.hero-video is more specific than
+   .bg-section, so this wins at every screen size without a media query. */
+.hero.hero-video{
+	padding-top: 120px;
+	padding-bottom: 330px;
+	width: 100%;
+	max-width: none;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+/* ------------------------------------------------------------------
+   Home page edits
+   ------------------------------------------------------------------ */
+
+/* Header: transparent over the video, fading to black on scroll. The
+   .sticky class is added by the scroll script already in index.html.
+   Both selectors are written as header.main-header so the scrolled state
+   wins on specificity rather than needing !important. */
+header.main-header{
+	background-color: transparent;
+	transition: background-color 0.5s ease;
+}
+
+header.main-header.sticky{
+	background-color: #000;
+}
+
+/* Hero headline on two lines: white on the first, green on the second. */
+.hero-content .section-title h1 span{
+	display: block;
+}
+
+/* Buttons keep their label on one line ("Get In Touch" was wrapping). */
+.btn-default{
+	white-space: nowrap;
+}
+
+/* Bigger section sub-heading. background-size is pinned so the leaf icon
+   stops growing with the text and overlapping it. */
+.section-title h3{
+	font-size: 20px;
+	background-size: 22px auto;
+	padding-left: 32px;
+}
+
+/* "Explore more" badge: a true circle, and no longer clipped by its box. */
+.about-us-img-2{
+	max-width: none;
+	width: 180px;
+	height: 180px;
+	border-radius: 50%;
+	overflow: visible;
+}
+
+.about-us-img-2 figure,
+.about-us-img-2 img{
+	width: 180px;
+	height: 180px;
+	border-radius: 50%;
+	object-fit: contain;
+}
+
+/* Four statistics across the full width, in white. */
+.export-coaching-step{
+	width: 25%;
+}
+
+/* Inner-page banner (About Us / Our Product / Vacancies / Blog headers) has
+   the same .bg-section cap as the home hero did (1800px max, 50px gutters
+   between 1561-1800px wide) — same override, edge to edge at every size. */
+.page-header.bg-section{
+	width: 100%;
+	max-width: none;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+/* Footer: background runs edge to edge; the content inside stays readable
+   with a percentage gutter instead of snapping to a fixed 1300px column. */
+footer.main-footer.bg-section{
+	width: 100%;
+	max-width: none;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+footer.main-footer .container{
+	width: 100%;
+	max-width: 100%;
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+/* "Milestones..." timeline: unlike the sections above, this one sits nested
+   inside a centered .container, so simply removing max-width does nothing —
+   it would only fill the already-narrow container. Instead it breaks out to
+   the full viewport width while the "Our History" heading above it stays in
+   its normal column. overflow-x:hidden on the section is required with this
+   technique, or the 50vw offset adds a horizontal scrollbar on the page. */
+.our-history{
+	overflow-x: hidden;
+}
+
+.history-content-box{
+	position: relative;
+	width: 100vw;
+	left: 50%;
+	right: 50%;
+	margin-left: -50vw;
+	margin-right: -50vw;
+}
+
+.export-coaching-step .statinfo h4,
+.export-coaching-step .export-coaching-step-content p{
+	color: var(--white-color);
+	font-weight: 700;
+}
+
+@media only screen and (max-width: 991px){
+	.hero.hero-video{
+		padding-top: 110px;
+		padding-bottom: 260px;
+	}
+}
+
+@media only screen and (max-width: 767px){
+	.hero.hero-video{
+		padding-top: 100px;
+		padding-bottom: 200px;
+	}
+}
+
+/* TAKWA VIDEO section: same .bg-section inset problem as the hero (50px
+   gutters between 1561-1800px wide, capped at 1800px above that). Same fix. */
+.hero.bg-section.parallaxie{
+	width: 100%;
+	max-width: none;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+/* ------------------------------------------------------------------
+   Our Blog: was a sidebar list (header sticky beside a stacked list of
+   image+text rows). Restructured in the HTML into a header row followed by
+   a 4-column card grid; this is the grid + card styling to match.
+   ------------------------------------------------------------------ */
+
+.our-blog-content{
+	position: static;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.blog-box{
+	margin-left: 0;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 30px;
+}
+
+.blog-item{
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	height: 100%;
+	border-bottom: none;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+.blog-item .blog-featured-image{
+	width: 100%;
+}
+
+.blog-item-body{
+	width: 100%;
+	margin-left: 0;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+.blog-item-content{
+	flex-grow: 1;
+}
+
+.blog-item-btn{
+	margin-top: auto;
+}
+
+@media only screen and (max-width: 1200px){
+	.blog-box{
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media only screen and (max-width: 767px){
+	.blog-box{
+		grid-template-columns: 1fr;
+	}
 }
