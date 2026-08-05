@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/takwafood/public_html/
+    - /bin/cp -R *.html $DEPLOYPATH
+    - /bin/cp -R *.css $DEPLOYPATH
