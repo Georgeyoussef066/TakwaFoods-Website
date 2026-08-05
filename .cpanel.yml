@@ -3,4 +3,10 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/takwafood/public_html/
     - /bin/cp -R *.html $DEPLOYPATH
-    - /bin/cp -R *.css $DEPLOYPATH
+    - /bin/cp -RT frontend $DEPLOYPATH/frontend
+    - /bin/cp -RT global $DEPLOYPATH/global
+    - /bin/cp -RT blog $DEPLOYPATH/blog
+    - /bin/cp -RT career $DEPLOYPATH/career
+    - /bin/cp -RT listing $DEPLOYPATH/listing
+    - /bin/cp -RT our-brands $DEPLOYPATH/our-brands
+    - /bin/cp -RT uploads $DEPLOYPATH/uploads
