@@ -7340,3 +7340,54 @@ footer.main-footer .container{
 	padding-left: 24px;
 }
 
+/* ------------------------------------------------------------------
+   About Us — Vision / Mission slider readability
+
+   The white text was sitting almost directly on the photo. Measured
+   causes:
+     1. the existing overlay only starts darkening at ~60% down the
+        slide, but the text block runs from 39% to 71% — so the whole
+        headline had no scrim behind it at all;
+     2. white on the lighter parts of these photos measured 2.99:1 on
+        the Mission slide (WCAG wants 4.5:1), dropping to 1.13:1 over
+        the brightest patches;
+     3. the 70px headline is font-weight 300, i.e. hairline thin;
+     4. no text-shadow to separate the glyphs from the busy photo.
+
+   Fixed by darkening the left side where the text actually sits (the
+   text column is max-width 750px), keeping the original bottom fade,
+   thickening the headline slightly and adding a soft shadow.
+   ------------------------------------------------------------------ */
+.hero.hero-slider-layout .hero-slide::before{
+	background:
+		linear-gradient(90deg,
+			rgba(4, 42, 45, 0.85) 0%,
+			rgba(4, 42, 45, 0.75) 55%,
+			rgba(4, 42, 45, 0.30) 78%,
+			rgba(4, 42, 45, 0) 95%),
+		linear-gradient(180deg,
+			rgba(4, 42, 45, 0) 59.75%,
+			var(--primary-color) 100%);
+}
+
+.hero.hero-slider-layout .hero-slide .section-title h1{
+	font-weight: 400;
+	text-shadow: 0 2px 10px rgba(4, 42, 45, 0.45);
+}
+
+.hero.hero-slider-layout .hero-slide .section-title h3,
+.hero.hero-slider-layout .hero-slide .section-title p{
+	text-shadow: 0 1px 6px rgba(4, 42, 45, 0.5);
+}
+
+/* On narrow screens the text spans the full width, so darken evenly. */
+@media only screen and (max-width: 991px){
+	.hero.hero-slider-layout .hero-slide::before{
+		background:
+			linear-gradient(180deg,
+				rgba(4, 42, 45, 0.80) 0%,
+				rgba(4, 42, 45, 0.72) 60%,
+				var(--primary-color) 100%);
+	}
+}
+
