@@ -7328,3 +7328,31 @@ footer.main-footer .container{
 		grid-template-columns: 1fr;
 	}
 }
+
+/* The "About Us" icon-overlap fix (font-size 20px + fixed icon size) was
+   written as a global .section-title h3 rule, so it also enlarged every
+   other small label site-wide — including "SERVICE" here. Reverting this
+   one back to the original 14px/tight style; About Us and the others are
+   untouched. */
+.our-services .section-title h3{
+	font-size: 14px;
+	background-size: contain;
+	padding-left: 24px;
+}
+
+/* Service cards: the divider line under each card's text is the
+   border-bottom on .service-item-content, so it was following that div's own
+   content height — shorter descriptions left the line sitting higher than on
+   cards with longer text. Making the card a flex column and letting the
+   content block grow to fill it anchors every card's line to the same
+   position, regardless of how much text is in it. */
+.service-item{
+	display: flex;
+	flex-direction: column;
+}
+
+.service-item-content{
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
