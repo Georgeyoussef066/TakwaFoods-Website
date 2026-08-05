@@ -7340,19 +7340,3 @@ footer.main-footer .container{
 	padding-left: 24px;
 }
 
-/* Service cards: the divider line under each card's text is the
-   border-bottom on .service-item-content, so it was following that div's own
-   content height — shorter descriptions left the line sitting higher than on
-   cards with longer text. Making the card a flex column and letting the
-   content block grow to fill it anchors every card's line to the same
-   position, regardless of how much text is in it. */
-.service-item{
-	display: flex;
-	flex-direction: column;
-}
-
-.service-item-content{
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-}
