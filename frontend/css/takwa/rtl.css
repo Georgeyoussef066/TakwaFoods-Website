@@ -38,8 +38,10 @@
     padding-left: 0;
 }
 
-/* Latin runs inside Arabic text (emails, phone numbers, brand names) */
+/* Latin runs inside Arabic text (emails, phone numbers, brand names).
+   Without isolation the leading + on a phone number jumps to the wrong end. */
 [dir="rtl"] a[href^="mailto:"],
+[dir="rtl"] a[href*="wa.me"],
 [dir="rtl"] a[href^="tel:"] {
     direction: ltr;
     display: inline-block;
