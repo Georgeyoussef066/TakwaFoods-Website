@@ -7824,3 +7824,20 @@ body.contact-page .main-footer .section-row > .col-lg-6:first-child{
 	bottom: 0;
 	margin-top: 0;
 }
+
+/* ==========================================================================
+   Hero background
+   --------------------------------------------------------------------------
+   .hero carries the template's own hero-bg.jpg -- a stock photograph of a
+   woman in an office. Nothing on this site ever wants to show it: the home
+   hero plays a video over it and the Vision/Mission slider paints its own
+   images on top. But both take a moment to arrive, so for the first second
+   of every page load that stock photo was what visitors saw.
+
+   Replacing it with the brand colour means the gap before the video or the
+   slide appears reads as part of the design rather than as a stray picture.
+   ========================================================================== */
+.hero{
+	background-image: none;
+	background-color: var(--primary-color);
+}

@@ -163,7 +163,7 @@
 
                     </div>
                 </div>
-                            <a href="contact-us.html" class="btn-default">Get In Touch</a>
+                            <a href="index-ar.html" class="btn-default">get in touch</a>
                         </div>
                         <!-- Header Btn End -->
                     </div>
@@ -325,7 +325,7 @@
                             <div class="inventory-sarch-ber-item">
                                 <div class="inventory-sarch-ber">
                                     <input type="text" class="form-control" id="outside_form_search" name="search"
-                                        placeholder="Search Car" value="">
+                                        placeholder="Search products" value="">
                                     <button id="outside_form_btn" type="button" class="thm-btn-two">Search Now</button>
                                 </div>
 
@@ -454,14 +454,6 @@
                     </div>
 
                                 
-                                     <div class="col-lg-4 col-sm-6">
-                        <div class="product-container">
-                            <img src="uploads/shared/car-2025-07-31-02-13-32-7758.webp">
-                            <h5 class="Prodctname">Product Full Name</h5>
-                            <p class="short-desc" style="color:#696969">Since 1996, we&#039;ve evolved from a local supplier into a leading force in the regi... </p>
-                            <a href="listing/product-full-name.html" class="btn-default">More Info</a>
-                        </div>
-                    </div>
                                                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel"
@@ -593,36 +585,6 @@
                                         </div>
                                     </div>
 
-                                                                    <div class=" col-xxl-6  col-xl-12  col-lg-12  col-sm-12 ">
-                                        <div class="brand-car-item">
-                                            <div class="brand-car-item-img">
-                                                <img src="uploads/shared/car-2025-07-31-02-13-32-7758.webp" alt="thumb">
-
-                                            </div>
-
-                                            <div class="brand-car-inner">
-
-
-                                                <a href="listing/product-full-name.html">
-                                                    <h3>Product Full Name</h3>
-                                                </a>
-
-
-                                                 <p class="short-desc" style="color:#696969">Since 1996, we&#039;ve evolved from a local supplier into a leading force in the regi... </p>
-
-
-                                                <div class="brand-car-btm-txt-btm">
-
-                                                <a href="listing/product-full-name.html" class="btn-default">More Info</a>
-
-                                                </div>
-
-
-
-                                            </div>
-
-                                        </div>
-                                    </div>
                                 
 
                             </div>
@@ -672,7 +634,7 @@
 
                         <!-- Contact Us Form Start -->
                         <form id="contactForm " action="https://takwaweb.designersidhost.com/store-contact-message" method="POST" data-toggle="validator" class="wow fadeInUp" data-wow-delay="0.4s">
-                           <input type="hidden" name="_token" value="9Jo9MJ64ulXJ75NHMoDQR6HIPYg6VY84C1dqUHxe">                            <div class="row">
+                           <input type="hidden" name="_token" value="">                            <div class="row">
                                 <div class="form-group col-md-6 mb-4">
                                     <input type="text" name="name" value="" class="form-control darkinput" id="fname" placeholder="Full Name" required>
                                     <div class="help-block with-errors"></div>
@@ -933,7 +895,7 @@
                     if(country_id){
                         $.ajax({
                             type: "get",
-                            url: "https://takwaweb.designersidhost.com/cities-by-country" + "/" + country_id,
+                            url: "https://takwafoods.com/cities-by-country" + "/" + country_id,
                             success: function(response) {
                                 $("#city_id").html(response)
 
@@ -995,6 +957,7 @@
                 }
         });
 </script>
+    <script src="frontend/assets/js/takwa/contact-form.js"></script>
 
 <script>
 /* Filtering runs in the browser: the site is static files, so the original
@@ -1006,7 +969,14 @@
   var cells = [].slice.call(document.querySelectorAll('.product-cell'));
   if (!cells.length) return;
 
-  var search = document.getElementById('product-search');
+  /* Two search boxes are on the page: the one in the sidebar and the wide
+     one above the grid, which the template shipped wired to the dead
+     backend. Both drive the same filter and mirror each other, so it
+     does not matter which one a visitor types into. */
+  var searches = [].slice.call(document.querySelectorAll(
+        '#product-search, #outside_form_search'));
+  var search = searches[0];
+  var active = null;
   var countEl = document.getElementById('filter-count');
 
   function checked(name) {
@@ -1017,7 +987,12 @@
   function apply() {
     var brands = checked('brands');
     var cats = checked('categories');
-    var q = (search && search.value || '').trim().toLowerCase();
+    /* Read from whichever box was last used, not the first non-empty one:
+       once the two are mirrored they both hold text, so picking the first
+       meant the sidebar always won and later typing was ignored. */
+    var src = active || searches[0];
+    var q = (src && src.value || '').trim().toLowerCase();
+    searches.forEach(function (i) { if (i !== src) { i.value = src ? src.value : ''; } });
     var shown = 0;
 
     cells.forEach(function (c) {
@@ -1044,13 +1019,22 @@
 
   form.addEventListener('change', apply);
   form.addEventListener('submit', function (e) { e.preventDefault(); apply(); });
-  if (search) search.addEventListener('input', apply);
+  searches.forEach(function (i) {
+    i.addEventListener('input', function () { active = i; apply(); });
+  });
+  var go = document.getElementById('outside_form_btn');
+  if (go) go.addEventListener('click', function (e) {
+    e.preventDefault();
+    active = document.getElementById('outside_form_search');
+    apply();
+  });
 
   var reset = document.getElementById('filter-reset');
   if (reset) reset.addEventListener('click', function (e) {
     e.preventDefault();
     form.reset();
-    if (search) search.value = '';
+    active = null;
+    searches.forEach(function (i) { i.value = ''; });
     apply();
   });
 
@@ -1058,7 +1042,6 @@
 })();
 </script>
 
-    <script src="frontend/assets/js/takwa/contact-form.js"></script>
 </body>
 
 </html>
