@@ -7268,6 +7268,16 @@ footer.main-footer .container{
 	margin-right: 0;
 }
 
+/* About Us Vision/Mission slider — the last section still carrying the
+   .bg-section cap. On a 1920px screen it sat 53px in from each edge and
+   stopped growing at 1800px. */
+.hero.bg-section.hero-slider-layout{
+	width: 100%;
+	max-width: none;
+	margin-left: 0;
+	margin-right: 0;
+}
+
 /* ------------------------------------------------------------------
    Our Blog: was a sidebar list (header sticky beside a stacked list of
    image+text rows). Restructured in the HTML into a header row followed by
@@ -7391,3 +7401,150 @@ footer.main-footer .container{
 	}
 }
 
+
+/* ------------------------------------------------------------------
+   Contact page
+
+   The page had the form and the contact details sitting as two plain
+   columns, with the details separated only by hairline rules. These
+   turn the details into proper cards, tidy the form, and stop the
+   footer's contact form appearing a second time on this page.
+   ------------------------------------------------------------------ */
+
+/* the footer repeats a contact form on every page — one is enough here */
+body.contact-page .main-footer .contact-us-form{
+	display: none;
+}
+body.contact-page .main-footer .section-row > .col-lg-6:first-child{
+	flex: 0 0 100%;
+	max-width: 100%;
+	text-align: center;
+}
+
+/* --- the details column --------------------------------------------- */
+.contact-information{
+	margin-left: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.contact-info-item{
+	background: #fff;
+	border: 1px solid #e8e8e2;
+	border-bottom: 1px solid #e8e8e2;
+	border-radius: 16px;
+	padding: 26px 28px;
+	margin-bottom: 0;
+	transition: box-shadow .3s ease, transform .3s ease, border-color .3s ease;
+}
+
+.contact-info-item:hover{
+	border-color: #cfe3bf;
+	box-shadow: 0 10px 28px rgba(4, 42, 45, .08);
+	transform: translateY(-2px);
+}
+
+.contact-info-item .contact-info-contant h3{
+	font-size: 13px;
+	letter-spacing: .09em;
+	text-transform: uppercase;
+	color: #7d8a7a;
+	margin: 0 0 14px;
+	font-weight: 700;
+}
+
+.contact-info-item .contact-info-body{
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+/* the icon sits in a soft green disc rather than floating loose */
+.contact-info-item .contact-info-body .icon-box{
+	flex: 0 0 52px;
+	width: 52px;
+	height: 52px;
+	border-radius: 50%;
+	background: #eef5e8;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.contact-info-item .contact-info-body .icon-box img{
+	width: 22px;
+	height: 22px;
+	object-fit: contain;
+}
+
+.contact-info-item .contact-info-title h3{
+	font-size: 17px;
+	line-height: 1.45em;
+	margin: 0;
+	word-break: break-word;
+}
+
+.contact-info-item .contact-info-title h3 a{
+	color: inherit;
+	text-decoration: none;
+	transition: color .25s ease;
+}
+
+.contact-info-item .contact-info-title h3 a:hover{
+	color: var(--accent-color, #6CB62F);
+}
+
+.contact-info-item .contact-info-title .sep{
+	color: #c9c9c2;
+	margin: 0 4px;
+}
+
+/* --- the form ------------------------------------------------------- */
+.contact-us-form{
+	box-shadow: 0 12px 40px rgba(4, 42, 45, .07);
+	border: 1px solid #ececE6;
+}
+
+.contact-us-form .form-control{
+	border: 1px solid #dcdcd5;
+	border-radius: 10px;
+	padding: 14px 16px;
+	transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.contact-us-form .form-control:focus{
+	border-color: #6CB62F;
+	box-shadow: 0 0 0 3px rgba(108, 182, 47, .15);
+	outline: none;
+}
+
+.contact-us-form .form-control::placeholder{
+	color: #a9a9a2;
+}
+
+/* --- the map -------------------------------------------------------- */
+.google-map-iframe,
+.google-map-iframe iframe{
+	height: 460px;
+}
+
+.google-map-iframe iframe{
+	filter: grayscale(1);
+	display: block;
+}
+
+.google-map-iframe:hover iframe{
+	filter: grayscale(0);
+}
+
+@media only screen and (max-width: 991px){
+	.contact-information{
+		margin-left: 0;
+		margin-top: 30px;
+	}
+	.google-map-iframe,
+	.google-map-iframe iframe{
+		height: 340px;
+	}
+}
