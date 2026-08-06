@@ -7548,3 +7548,207 @@ body.contact-page .main-footer .section-row > .col-lg-6:first-child{
 		height: 340px;
 	}
 }
+
+/* ------------------------------------------------------------------
+   Our Products — filter sidebar
+
+   The original filters posted to a Laravel backend that no longer
+   exists, so nothing happened when you used them. They now filter in
+   the browser; these style the search box, the result count and the
+   no-results message that were added alongside.
+   ------------------------------------------------------------------ */
+.filter-search{
+	margin: 6px 0 18px;
+}
+
+.filter-search .form-control{
+	border: 1px solid #dcdcd5;
+	border-radius: 10px;
+	padding: 12px 14px;
+	font-size: 14px;
+	width: 100%;
+	transition: border-color .25s ease, box-shadow .25s ease;
+}
+
+.filter-search .form-control:focus{
+	border-color: #6CB62F;
+	box-shadow: 0 0 0 3px rgba(108, 182, 47, .15);
+	outline: none;
+}
+
+.filter-count{
+	font-size: 13.5px;
+	color: #7d8a7a;
+	margin: 0 0 18px;
+	font-weight: 600;
+}
+
+.filter-empty{
+	background: #fff;
+	border: 1px dashed #d8d8d0;
+	border-radius: 12px;
+	padding: 34px 20px;
+	text-align: center;
+	color: #8a8a82;
+	font-size: 15px;
+	margin-bottom: 20px;
+}
+
+/* the checkbox rows read as a tidy list rather than loose text */
+.select-Brand-box .form-check{
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	padding: 5px 0;
+}
+
+.select-Brand-box .form-check-label{
+	cursor: pointer;
+	font-size: 14.5px;
+	line-height: 1.35em;
+}
+
+.select-Brand-box .form-check-input{
+	cursor: pointer;
+	flex: 0 0 auto;
+	margin: 0;
+}
+
+#filter-reset{
+	width: 100%;
+	cursor: pointer;
+}
+
+/* ==========================================================================
+   Phone layout
+   --------------------------------------------------------------------------
+   Appended last so these win over the theme's own breakpoints. The theme was
+   already largely responsive -- the menu collapses, headings scale, the grid
+   stacks -- so this only covers what was still wrong on a real phone:
+   content the theme hid rather than reflowed, cards left too narrow to read,
+   and controls too small to hit with a thumb.
+   ========================================================================== */
+
+@media only screen and (max-width: 767px){
+
+	/* The four figures (26+ years, 200+ employees, 160+ products,
+	   170+ clients) were set to display:none below 767px, so the whole
+	   proof-point row vanished on phones. It is some of the most convincing
+	   content on the page, so it comes back as a 2x2 grid instead. */
+	.export-coaching-box{
+		display: flex;
+		flex-wrap: wrap;
+		gap: 24px 0;
+		margin-top: 36px;
+	}
+
+	.export-coaching-box .export-coaching-step{
+		width: 50%;
+		padding: 20px 12px 0 0;
+		border-top: 2px solid var(--dark-divider-color);
+	}
+
+	.export-coaching-box .export-coaching-step .statinfo h4{
+		font-size: 28px;
+		line-height: 1.2;
+	}
+
+	.export-coaching-box .export-coaching-step-content p{
+		font-size: 14px;
+	}
+}
+
+@media only screen and (max-width: 575px){
+
+	/* Product cards were still two to a row at 375px, leaving each one about
+	   188px wide -- too narrow for the pack shot, the name and the
+	   description to sit together legibly. One per row on phones. */
+	.product-cell{
+		width: 100%;
+		max-width: 100%;
+		flex: 0 0 100%;
+	}
+
+	/* the gutter between stacked cards was sized for a 3-up desktop grid */
+	.row.g-5 > .product-cell{
+		margin-bottom: 8px;
+	}
+}
+
+@media only screen and (max-width: 767px){
+
+	/* Touch targets. These controls were between 18px and 30px, well under
+	   the ~44px a thumb needs. The visible size is left alone where it is
+	   part of the design; the tappable area is grown around it instead. */
+	.footer-social-links a,
+	.social-links a{
+		min-width: 44px;
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.cookie_consent_close_btn,
+	.btn-close.cookie_consent_close_btn{
+		padding: 12px;
+		min-width: 44px;
+		min-height: 44px;
+	}
+
+	/* Filter checkboxes: bigger box, and the label becomes part of the
+	   target. They sit in the accordion sidebar rather than .filter-sidebar,
+	   so that is what the selectors key off. */
+	/* three classes deep, to outrank style.css's own
+	   .inventory-main-box .select-Brand-box .form-check-input */
+	.inventory-main-box .select-Brand-box .form-check-input,
+	.accordion-body .form-check .form-check-input,
+	.filter-sidebar .form-check .form-check-input{
+		width: 22px;
+		height: 22px;
+		margin-top: 0;
+		flex: 0 0 22px;
+	}
+
+	.accordion-body .form-check,
+	.filter-sidebar .form-check{
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		min-height: 44px;
+	}
+
+	.accordion-body .form-check label,
+	.accordion-body .form-check-label,
+	.filter-sidebar .form-check-label{
+		flex: 1;
+		padding: 10px 0;
+		cursor: pointer;
+	}
+
+	/* the accordion headers themselves are tap targets too */
+	.accordion-button{
+		min-height: 48px;
+	}
+
+	/* full-width form controls read better than centred half-width ones */
+	.filter-sidebar select,
+	.filter-sidebar input[type="text"],
+	.filter-sidebar input[type="search"]{
+		width: 100%;
+		min-height: 44px;
+	}
+
+	.thm-btn-two,
+	.filter-sidebar .btn-default{
+		width: 100%;
+		min-height: 46px;
+	}
+
+	/* footer link rows sat 26px apart, which is easy to mis-tap */
+	.footer-links li a,
+	.footer-widget ul li a{
+		display: inline-block;
+		padding: 7px 0;
+	}
+}
