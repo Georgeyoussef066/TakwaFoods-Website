@@ -7841,3 +7841,35 @@ body.contact-page .main-footer .section-row > .col-lg-6:first-child{
 	background-image: none;
 	background-color: var(--primary-color);
 }
+
+/* ==========================================================================
+   Pointer
+   --------------------------------------------------------------------------
+   The template shipped a "magic cursor" -- a dot that chased the mouse. It is
+   hidden here rather than unhooked, so magiccursor.js still runs but draws
+   nothing.
+
+   Hiding it is not enough on its own. To make the dot the only pointer on
+   screen the theme sets `cursor: none` in eight places in this file (links,
+   buttons, team photos, sliders). With the dot gone those rules would leave
+   no pointer at all over much of the site, so the ordinary one is put back.
+   ========================================================================== */
+.cb-cursor,
+.cb-cursor-text{
+	display: none !important;
+}
+
+*, *::before, *::after{
+	cursor: auto;
+}
+
+a, button, [role="button"], .btn-default, .thm-btn-two, .vacancylink,
+input[type="submit"], input[type="button"], label, select, summary,
+.swiper-button-next, .swiper-button-prev, .owl-nav button, .nav-link{
+	cursor: pointer;
+}
+
+input[type="text"], input[type="email"], input[type="tel"],
+input[type="search"], input[type="password"], textarea{
+	cursor: text;
+}
