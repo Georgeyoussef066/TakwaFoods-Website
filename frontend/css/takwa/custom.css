@@ -7873,3 +7873,101 @@ input[type="text"], input[type="email"], input[type="tel"],
 input[type="search"], input[type="password"], textarea{
 	cursor: text;
 }
+
+/* ==========================================================================
+   Buttons — one shape everywhere
+   --------------------------------------------------------------------------
+   The theme grew three different button sizes: .btn-default at 50px (59px
+   where it wrapped), .thm-btn-two at 56px in one place and 42px in another,
+   with 16px and 18px text and text-align flipping between start and center.
+   Sitting next to each other they looked like a mistake.
+
+   They are all pills of the same height now, with the label centred both
+   ways. inline-flex does the vertical centring, which line-height alone
+   never manages reliably once a label wraps.
+
+   .btn-default keeps more room on the right: its arrow is an absolutely
+   positioned ::before pinned to that edge, so the label has to stop short of
+   it. Buttons without an arrow get even padding instead.
+
+   Deliberately left alone: the language toggle in the header, the round
+   chevron on vacancy rows, the burger and the cookie close cross. None of
+   them are pills and forcing them into this shape would break them.
+   ========================================================================== */
+.btn-default,
+.thm-btn-two,
+button.btn-default,
+input[type="submit"].btn-default{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-height: 52px;
+	min-width: 170px;
+	max-width: 100%;
+	border-radius: 100px;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.25;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+}
+
+/* room on the right for the arrow that ::before pins there */
+.btn-default,
+button.btn-default,
+input[type="submit"].btn-default{
+	padding: 12px 54px 12px 28px;
+}
+
+/* no arrow on these, so the padding is even */
+.thm-btn-two{
+	padding: 12px 32px;
+}
+
+/* the cookie banner's button spans its own bar, so it keeps its width */
+.thm-btn-two.cookie_consent_accept_btn{
+	width: 100%;
+}
+
+/* On narrow screens a 170px floor can be wider than the column holding it. */
+@media only screen and (max-width: 575px){
+	.btn-default,
+	.thm-btn-two{
+		min-width: 0;
+		width: 100%;
+	}
+}
+
+/* On a phone the brand pages kept their product tiles two to a row, which
+   left each card about 150px wide -- narrow enough that "More Info" ran into
+   the arrow pinned to the button's right edge. One per row, as on the
+   products page, gives the button its full width back. */
+@media only screen and (max-width: 575px){
+	.about-us .col-lg-3.col-sm-6{
+		width: 100%;
+		max-width: 100%;
+		flex: 0 0 100%;
+	}
+}
+
+/* Two buttons sitting side by side need a gap; as inline-flex elements the
+   whitespace between them in the markup collapses to almost nothing. */
+.btn-default + .btn-default,
+.btn-default + .thm-btn-two,
+.thm-btn-two + .btn-default{
+	margin-left: 14px;
+}
+
+/* Full-width buttons on a phone sit one above the other, so the side margin
+   that separates them on desktop would just shunt the lower one out of
+   alignment. It becomes vertical spacing instead. */
+@media only screen and (max-width: 575px){
+	.btn-default + .btn-default,
+	.btn-default + .thm-btn-two,
+	.thm-btn-two + .btn-default{
+		margin-left: 0;
+		margin-top: 12px;
+	}
+}

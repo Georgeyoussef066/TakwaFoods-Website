@@ -260,3 +260,37 @@
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
 }
+
+/* ------------------------------------------------------------- buttons -- */
+/* The arrow is a ::before pinned to the right edge, so in Arabic it moves to
+   the left and the label's breathing room moves with it. */
+[dir="rtl"] .btn-default,
+[dir="rtl"] button.btn-default,
+[dir="rtl"] input[type="submit"].btn-default{
+    padding: 12px 28px 12px 54px;
+}
+
+[dir="rtl"] .btn-default::before{
+    right: auto;
+    left: 0;
+    transform: translate(20px, 50%) scaleX(-1);
+}
+
+[dir="rtl"] .btn-default:hover::before{
+    transform: translate(20px, 50%) scaleX(-1) rotate(45deg);
+}
+
+[dir="rtl"] .btn-default + .btn-default,
+[dir="rtl"] .btn-default + .thm-btn-two,
+[dir="rtl"] .thm-btn-two + .btn-default{
+    margin-left: 0;
+    margin-right: 14px;
+}
+
+@media only screen and (max-width: 575px) {
+    [dir="rtl"] .btn-default + .btn-default,
+    [dir="rtl"] .btn-default + .thm-btn-two,
+    [dir="rtl"] .thm-btn-two + .btn-default {
+        margin-right: 0;
+    }
+}

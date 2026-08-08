@@ -38,14 +38,30 @@
             sent: "Thank you — your message has been sent. We'll reply within 24 hours.",
             failed: "Sorry, your message could not be sent. Please email info@takwafoods.com or call +963 942002287.",
             offline: "Please email info@takwafoods.com or call +963 942002287 — we'll get straight back to you.",
-            send: "Send Message"
+            send: "Send Message",
+            eFix: "Please check the highlighted fields below.",
+            eRequired: "This field is required.",
+            eName: "Please enter your full name.",
+            eEmail: "Enter a valid email address, like name@company.com",
+            ePhone10: "Please enter exactly 10 digits, like 0912345678.",
+            ePhoneChars: "Numbers only — you may start with + for a country code.",
+            eShort: "Please write a little more.",
+            eMessage: "Please tell us a bit more — at least 10 characters."
         },
         ar: {
             sending: "جارٍ الإرسال…",
             sent: "شكراً لكم — تم إرسال رسالتكم، وسنرد خلال 24 ساعة.",
             failed: "نعتذر، تعذّر إرسال رسالتكم. يرجى مراسلتنا على info@takwafoods.com أو الاتصال على +963 942002287.",
             offline: "يرجى مراسلتنا على info@takwafoods.com أو الاتصال على +963 942002287 — وسنعود إليكم فوراً.",
-            send: "إرسال الرسالة"
+            send: "إرسال الرسالة",
+            eFix: "يرجى مراجعة الحقول المحدّدة أدناه.",
+            eRequired: "هذا الحقل مطلوب.",
+            eName: "يرجى إدخال اسمكم الكامل.",
+            eEmail: "أدخلوا بريداً إلكترونياً صحيحاً، مثل name@company.com",
+            ePhone10: "يرجى إدخال 10 أرقام تماماً، مثل 0912345678.",
+            ePhoneChars: "أرقام فقط — يمكنكم البدء بعلامة + لرمز الدولة.",
+            eShort: "يرجى كتابة تفاصيل أكثر.",
+            eMessage: "يرجى إخبارنا بالمزيد — 10 أحرف على الأقل."
         }
     };
 
@@ -72,18 +88,146 @@
         el.style.color = ok ? "#1a7f5a" : "#c0392b";
     }
 
+    /* ------------------------------------------------------------------
+       Field rules.
+
+       The browser's own checks are too loose to be useful here: type="email"
+       accepts "a@b" with no dot, and "required" accepts a single space. Each
+       field is therefore checked properly, and the reason is written under
+       the field in the reader's own language rather than in a browser bubble
+       that only appears on one field at a time.
+       ------------------------------------------------------------------ */
+    var LETTER = /[a-zA-Z؀-ۿ]/;                  /* Latin or Arabic */
+
+    /* Must end in a real top-level domain. Requiring "a dot somewhere after
+       the @" is not enough on its own -- it lets "name@gmail." through. */
+    var EMAIL = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)*\.[a-zA-Z]{2,}$/;
+
+    var PHONE_DIGITS = 10;
+
+    function digits(value) {
+        return (value || "").replace(/\D/g, "");
+    }
+
+    /* Only digits, and a + allowed at the front for a country code. Anything
+       else is dropped as it is typed, so letters cannot be entered at all
+       rather than being rejected after the fact. */
+    function tidyPhone(value) {
+        var plus = value.charAt(0) === "+" ? "+" : "";
+        return plus + digits(value).slice(0, PHONE_DIGITS);
+    }
+
+    function checkPhone(value) {
+        var raw = (value || "").trim();
+        if (!raw) { return "required"; }
+        if (/[^\d+\s()\-.]/.test(raw)) { return "chars"; }
+        return digits(raw).length === PHONE_DIGITS ? null : "ten";
+    }
+
+    var RULES = {
+        name: function (v) {
+            v = v.trim();
+            if (!v) { return t.eRequired; }
+            if (v.length < 2 || !LETTER.test(v)) { return t.eName; }
+            return null;
+        },
+        email: function (v) {
+            v = v.trim();
+            if (!v) { return t.eRequired; }
+            return EMAIL.test(v) ? null : t.eEmail;
+        },
+        phone: function (v) {
+            var why = checkPhone(v);
+            if (why === "required") { return t.eRequired; }
+            if (why === "chars") { return t.ePhoneChars; }
+            if (why === "ten") { return t.ePhone10; }
+            return null;
+        },
+        subject: function (v) {
+            v = v.trim();
+            if (!v) { return t.eRequired; }
+            return v.length < 2 ? t.eShort : null;
+        },
+        company: function (v) {
+            v = v.trim();
+            if (!v) { return t.eRequired; }
+            return v.length < 2 ? t.eShort : null;
+        },
+        message: function (v) {
+            v = v.trim();
+            if (!v) { return t.eRequired; }
+            return v.length < 10 ? t.eMessage : null;
+        }
+    };
+
+    function errorNode(field) {
+        var el = field.parentNode.querySelector(".field-error");
+        if (!el) {
+            el = document.createElement("span");
+            el.className = "field-error";
+            el.style.cssText = "display:block;color:#c0392b;font-size:14px;" +
+                               "line-height:1.5;margin-top:6px";
+            field.parentNode.appendChild(el);
+        }
+        return el;
+    }
+
+    function clearError(field) {
+        var el = field.parentNode.querySelector(".field-error");
+        if (el) { el.textContent = ""; }
+        field.style.borderColor = "";
+    }
+
+    function validate(form) {
+        var first = null;
+        Object.keys(RULES).forEach(function (name) {
+            var field = form.querySelector('[name="' + name + '"]');
+            if (!field) { return; }
+            var problem = RULES[name](field.value);
+            if (problem) {
+                errorNode(field).textContent = problem;
+                field.style.borderColor = "#c0392b";
+                if (!first) { first = field; }
+            } else {
+                clearError(field);
+            }
+        });
+        if (first) { first.focus(); }
+        return !first;
+    }
+
     function handle(form) {
+        var tel = form.querySelector('[name="phone"]');
+        if (tel) {
+            tel.setAttribute("inputmode", "tel");
+            tel.setAttribute("maxlength", "16");
+            tel.addEventListener("input", function () {
+                var tidy = tidyPhone(tel.value);
+                if (tidy !== tel.value) {
+                    var atEnd = tel.selectionStart === tel.value.length;
+                    tel.value = tidy;
+                    if (atEnd) { tel.setSelectionRange(tidy.length, tidy.length); }
+                }
+            });
+        }
+
+        /* clear a field's complaint as soon as the visitor starts fixing it */
+        form.addEventListener("input", function (event) {
+            if (event.target && event.target.name in RULES) {
+                clearError(event.target);
+            }
+        });
+
         form.addEventListener("submit", function (event) {
             event.preventDefault();
 
-            if (!ACCESS_KEY) {
-                say(form, t.offline, false);
+            if (!validate(form)) {
+                say(form, t.eFix, false);
                 return;
             }
 
-            /* the browser's own required/type=email checks first */
-            if (typeof form.checkValidity === "function" && !form.checkValidity()) {
-                form.reportValidity();
+            if (!ACCESS_KEY) {
+                say(form, t.offline, false);
                 return;
             }
 
